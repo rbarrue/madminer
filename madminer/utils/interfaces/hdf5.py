@@ -782,8 +782,8 @@ def _load_nuisance_params(file_name: str) -> Dict[str, NuisanceParameter]:
             param_systematics = _decode_strings(param_systematics)
             param_benchmarks_pos = _decode_strings(param_benchmarks_pos)
             param_benchmarks_neg = _decode_strings(param_benchmarks_neg)
-            param_benchmarks_pos = [None if name == "" else name for name in param_benchmarks_pos]
-            param_benchmarks_neg = [None if name == "" else name for name in param_benchmarks_neg]
+            param_benchmarks_pos = [None if name == "None" else name for name in param_benchmarks_pos]
+            param_benchmarks_neg = [None if name == "None" else name for name in param_benchmarks_neg]
 
     for name, sys, benchmark_pos, benchmark_neg in zip(
         param_names,
@@ -822,8 +822,8 @@ def _save_nuisance_params(
 
     param_names = [p.name for p in parameters.values()]
     param_systematics = [p.systematic for p in parameters.values()]
-    param_benchmarks_pos = [p.benchmark_pos if p.benchmark_pos else "" for p in parameters.values()]
-    param_benchmarks_neg = [p.benchmark_neg if p.benchmark_neg else "" for p in parameters.values()]
+    param_benchmarks_pos = [p.benchmark_pos if p.benchmark_pos else "None" for p in parameters.values()]
+    param_benchmarks_neg = [p.benchmark_neg if p.benchmark_neg else "None" for p in parameters.values()]
 
     param_names = _encode_strings(param_names)
     param_systematics = _encode_strings(param_systematics)
@@ -1022,7 +1022,7 @@ def _save_observables(
     observable_names = _encode_strings(observable_names)
 
     # Filter out callable definitions when saving into HDF5 file
-    observable_defs = [d if isinstance(d, str) else "" for d in observable_defs]
+    observable_defs = [d if isinstance(d, str) else "None" for d in observable_defs]
     observable_defs = _encode_strings(observable_defs)
 
     # Append if file exists, otherwise create
@@ -1228,7 +1228,7 @@ def _load_systematics(file_name: str) -> Tuple[List[str], List[str], List[System
             systematics_names = _decode_strings(systematics_names)
             systematics_types = _decode_strings(systematics_types)
             systematics_scales = _decode_strings(systematics_scales)
-            systematics_scales = [None if scale == "" else scale for scale in systematics_scales]
+            systematics_scales = [None if scale == "None" else scale for scale in systematics_scales]
 
     return (
         systematics_names,
@@ -1269,7 +1269,7 @@ def _save_systematics(
         None
     """
 
-    systematics_scales = [scale if scale else "" for scale in systematics_scales]
+    systematics_scales = [scale if scale else "None" for scale in systematics_scales]
 
     systematics_names = _encode_strings(systematics_names)
     systematics_types = _encode_strings(systematics_types)
